@@ -3,12 +3,13 @@
 namespace App\Eloquent;
 
 use App\Contracts\RobotRepositoryInterface;
+use App\Data\GetRobotsLatestEventData;
 use App\Models\Robot;
 use Illuminate\Support\Collection;
 
 class RobotRepository implements RobotRepositoryInterface
 {
-    public function getRobotsLatestEvents(): Collection {
+    public function getRobotsLatestEvents(GetRobotsLatestEventData $data): Collection {
         return Robot::with([
             'events' => function ($query) {
                 $query->select([
@@ -25,6 +26,7 @@ class RobotRepository implements RobotRepositoryInterface
                 ->limit(1);
             }
         ])
+        ->whereIn('id', $data->robot_ids)
         ->select([
             'id',
             'type',

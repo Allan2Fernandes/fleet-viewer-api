@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Contracts\RobotRepositoryInterface;
+use App\Data\GetRobotsLatestEventData;
 use Illuminate\Support\Collection;
 use Lorisleiva\Actions\Concerns\AsAction;
 
@@ -17,8 +18,8 @@ class GetRobotsLatestEventAction
     }
     
 
-    public function handle(): Collection
+    public function handle(GetRobotsLatestEventData $data): Collection
     {
-        return $this->robotRepositoryInterface->getRobotsLatestEvents();
+        return $this->robotRepositoryInterface->getRobotsLatestEvents($data);
     }
 }
