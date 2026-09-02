@@ -7,6 +7,7 @@ use App\Models\Robot;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Log;
 
 
 class EventSeeder extends Seeder
@@ -21,17 +22,38 @@ class EventSeeder extends Seeder
         $robots = Robot::all();
         $events = [];
         $statusList = ['active', 'maintenance', 'idle'];
+        $previousRobotPositionsMap = [];
+        foreach($robots as $robot) {
+            $x = rand(0, 900);
+            $y = rand(0, 560);
+            $events[] = [
+                'id' => (string)Str::uuid(),
+                'time' => $currentTime,
+                'x' => $x,
+                'y' => $y,
+                'status' => $statusList[array_rand($statusList)],
+                'battery' => 100.00,
+                'robot_id' => $robot->id
+            ];
+
+            $previousRobotPositionsMap[$robot->id] = ['x' => $x, 'y' => $y];
+        }
+        $currentTime += 5;
+        
         while ($currentTime < $time + 1000) {
             foreach($robots as $robot) {
+                $x = ($previousRobotPositionsMap[$robot->id]['x'] + rand(-5,5)) % 900;
+                $y = ($previousRobotPositionsMap[$robot->id]['y'] + rand(-5,5)) % 560;
                 $events[] = [
                     'id' => (string)Str::uuid(),
                     'time' => $currentTime,
-                    'x' => 0,
-                    'y' => 0,
-                    'status' => array_rand($statusList),
+                    'x' => $x,
+                    'y' => $y,
+                    'status' => $statusList[array_rand($statusList)],
                     'battery' => 100.00,
                     'robot_id' => $robot->id
                 ];
+                $previousRobotPositionsMap[] = [$robot->id => ['x' => $x, 'y' => $y]];
             }
             $currentTime +=5;
         }
