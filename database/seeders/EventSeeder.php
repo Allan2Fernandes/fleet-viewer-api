@@ -53,7 +53,7 @@ class EventSeeder extends Seeder
                     'battery' => 100.00,
                     'robot_id' => $robot->id
                 ];
-                $previousRobotPositionsMap[] = [$robot->id => ['x' => $x, 'y' => $y]];
+                $previousRobotPositionsMap[$robot->id] = ['x' => $x, 'y' => $y];
             }
             $currentTime +=5;
         }
