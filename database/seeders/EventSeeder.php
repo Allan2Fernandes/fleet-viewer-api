@@ -42,8 +42,8 @@ class EventSeeder extends Seeder
         
         while ($currentTime < $time + 1000) {
             foreach($robots as $robot) {
-                $x = ($previousRobotPositionsMap[$robot->id]['x'] + rand(-5,5)) % 900;
-                $y = ($previousRobotPositionsMap[$robot->id]['y'] + rand(-5,5)) % 560;
+                $x = ($previousRobotPositionsMap[$robot->id]['x'] + rand(-25,25)) % 900;
+                $y = ($previousRobotPositionsMap[$robot->id]['y'] + rand(-25,25)) % 560;
                 $events[] = [
                     'id' => (string)Str::uuid(),
                     'time' => $currentTime,

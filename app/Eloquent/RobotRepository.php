@@ -11,10 +11,28 @@ class RobotRepository implements RobotRepositoryInterface
     public function getRobotsLatestEvents(): Collection {
         return Robot::with([
             'events' => function ($query) {
-                $query->where('time', '<=', now()->timestamp)
-                    ->orderByDesc('time')
-                    ->limit(1);
+                $query->select([
+                    'id',
+                    'time',
+                    'robot_id',
+                    'x',
+                    'y',
+                    'status',
+                    'battery',
+                ])
+                ->where('time', '<=', now()->timestamp)
+                ->orderByDesc('time')
+                ->limit(1);
             }
-        ])->get();
+        ])
+        ->select([
+            'id',
+            'type',
+        ])
+        ->get();
+    }
+
+    public function getListOfRobots(): Collection {
+        return Robot::query()->select(['id', 'type'])->get();
     }
 }

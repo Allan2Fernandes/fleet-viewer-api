@@ -7,4 +7,6 @@ use Illuminate\Support\Collection;
 interface RobotRepositoryInterface
 {
     public function getRobotsLatestEvents(): Collection;
+
+    public function getListOfRobots(): Collection;
 }
