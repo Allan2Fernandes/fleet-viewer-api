@@ -14,7 +14,7 @@ class Event extends Model
 
     protected $fillable = [
         'id',
-        't',
+        'time',
         'robot_id',
         'x',
         'y',
