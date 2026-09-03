@@ -7,7 +7,6 @@ use App\Models\Robot;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
-use Log;
 
 
 class EventSeeder extends Seeder
@@ -23,40 +22,82 @@ class EventSeeder extends Seeder
         $events = [];
         $statusList = ['active', 'maintenance', 'idle'];
         $previousRobotPositionsMap = [];
-        foreach($robots as $robot) {
+        $previousBatteryMap = [];
+
+        foreach ($robots as $robot) {
             $x = rand(0, 900);
             $y = rand(0, 560);
+            $battery = 100 - rand(1,100)/100;
             $events[] = [
-                'id' => (string)Str::uuid(),
+                'id' => (string) Str::uuid(),
                 'time' => $currentTime,
                 'x' => $x,
                 'y' => $y,
                 'status' => $statusList[array_rand($statusList)],
-                'battery' => 100.00,
+                'battery' => $battery,
                 'robot_id' => $robot->id
             ];
 
-            $previousRobotPositionsMap[$robot->id] = ['x' => $x, 'y' => $y];
+            $previousRobotPositionsMap[$robot->id] = [
+                'x' => $x,
+                'y' => $y
+            ];
+
+            $previousBatteryMap[$robot->id] = $battery;
         }
+
         $currentTime += 5;
-        
+
         while ($currentTime < $time + 1000) {
-            foreach($robots as $robot) {
-                $x = ($previousRobotPositionsMap[$robot->id]['x'] + rand(-25,25)) % 900;
-                $y = ($previousRobotPositionsMap[$robot->id]['y'] + rand(-25,25)) % 560;
+            foreach ($robots as $robot) {
+                $previousX = $previousRobotPositionsMap[$robot->id]['x'];
+                $previousY = $previousRobotPositionsMap[$robot->id]['y'];
+                $battery = max(
+                    0,
+                    $previousBatteryMap[$robot->id] - rand(1, 100) / 500
+                );
+
+                $moveX = $battery > 0 ? rand(-25, 25) : 0;
+                $moveY = $battery > 0 ? rand(-25, 25) : 0;
+
+                $x = $previousX + $moveX;
+                $y = $previousY + $moveY;
+
+                // Bounce off left/right walls
+                if ($x < 0) {
+                    $x = -$x;
+                } elseif ($x > 900) {
+                    $x = 900 - ($x - 900);
+                }
+
+                // Bounce off top/bottom walls
+                if ($y < 0) {
+                    $y = -$y;
+                } elseif ($y > 560) {
+                    $y = 560 - ($y - 560);
+                }
+
                 $events[] = [
-                    'id' => (string)Str::uuid(),
+                    'id' => (string) Str::uuid(),
                     'time' => $currentTime,
                     'x' => $x,
                     'y' => $y,
                     'status' => $statusList[array_rand($statusList)],
-                    'battery' => 100.00,
+                    'battery' => $battery,
                     'robot_id' => $robot->id
                 ];
-                $previousRobotPositionsMap[$robot->id] = ['x' => $x, 'y' => $y];
+
+                $previousRobotPositionsMap[$robot->id] = [
+                    'x' => $x,
+                    'y' => $y
+                ];
+
+                $previousBatteryMap[$robot->id] = $battery;
             }
-            $currentTime +=5;
+
+            $currentTime += 5;
         }
+
         Event::factory()->createMany($events);
-    }
+    } 
 }
