@@ -21,7 +21,7 @@ class EventSeeder extends Seeder
         $currentTime = $time - $interval/2;
         $robots = Robot::all();
         $events = [];
-        $statusList = ['active', 'maintenance', 'idle'];
+        $statusList = ['active', 'active', 'active', 'maintenance', 'idle'];
         $previousRobotPositionsMap = [];
         $previousBatteryMap = [];
 
