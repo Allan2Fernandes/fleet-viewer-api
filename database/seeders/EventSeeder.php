@@ -16,8 +16,9 @@ class EventSeeder extends Seeder
      */
     public function run(): void
     {
+        $interval = (int) env('MOCK_EVENT_INTERVAL', 400);
         $time = now()->timestamp;
-        $currentTime = $time - 1000;
+        $currentTime = $time - $interval/2;
         $robots = Robot::all();
         $events = [];
         $statusList = ['active', 'maintenance', 'idle'];
@@ -48,7 +49,7 @@ class EventSeeder extends Seeder
 
         $currentTime += 5;
 
-        while ($currentTime < $time + 1000) {
+        while ($currentTime < $time + $interval/2) {
             foreach ($robots as $robot) {
                 $previousX = $previousRobotPositionsMap[$robot->id]['x'];
                 $previousY = $previousRobotPositionsMap[$robot->id]['y'];
@@ -98,6 +99,8 @@ class EventSeeder extends Seeder
             $currentTime += 5;
         }
 
-        Event::factory()->createMany($events);
+        foreach (array_chunk($events, 1000) as $chunk) {
+            Event::factory()->createMany($chunk);
+        }
     } 
 }

@@ -5,17 +5,20 @@ namespace App\Data;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
 
-class GetRobotsLatestEventData extends Data
+class CreateMockEventsData extends Data
 {
     public function __construct(
-        public array $robot_ids
+        public int $fleet_size
     ) {}
 
     public static function rules(ValidationContext $context = null): array
     {
         return [
-            'robot_ids' => [],
-            'robot_ids.*' => ['required', 'string'],
+            'fleet_size' => [
+                'required',
+                'integer',
+                'between:0,1000',
+            ],
         ];
     }
 }

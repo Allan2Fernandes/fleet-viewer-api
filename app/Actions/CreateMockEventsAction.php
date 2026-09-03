@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Contracts\EventRepositoryInterface;
+use App\Data\CreateMockEventsData;
 use Lorisleiva\Actions\Concerns\AsAction;
 
 class CreateMockEventsAction
@@ -16,8 +17,8 @@ class CreateMockEventsAction
     }
     
 
-    public function handle()
+    public function handle(CreateMockEventsData $data)
     {
-        $this->eventRepositoryInterface->createMockEvents();
+        $this->eventRepositoryInterface->createMockEvents($data);
     }
 }
