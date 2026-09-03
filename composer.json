@@ -13,7 +13,8 @@
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
-        "lorisleiva/laravel-actions": "^2.12"
+        "lorisleiva/laravel-actions": "^2.12",
+        "spatie/laravel-data": "^4.23"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
