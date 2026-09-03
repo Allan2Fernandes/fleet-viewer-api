@@ -16,8 +16,8 @@ class CreateMockEventsController extends Controller
     public function __invoke(Request $request): JsonResponse
     {
         DB::beginTransaction();
-            CreateMockEventsAction::run();
+        CreateMockEventsAction::run();
         DB::commit();
-        return new JsonResponse(['Message' => 'Mock data successfully generated']);
+        return new JsonResponse(['message' => 'Mock data successfully generated']);
     }
 }
