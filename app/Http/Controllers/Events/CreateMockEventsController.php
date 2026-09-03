@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Events;
 
 use App\Actions\CreateMockEventsAction;
+use App\Data\CreateMockEventsData;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateMockEventsRequest;
 use DB;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -13,10 +15,11 @@ class CreateMockEventsController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(CreateMockEventsRequest $request): JsonResponse
     {
         DB::beginTransaction();
-        CreateMockEventsAction::run();
+        $data = CreateMockEventsData::from($request->validated());
+        CreateMockEventsAction::run($data);
         DB::commit();
         return new JsonResponse(['message' => 'Mock data successfully generated']);
     }

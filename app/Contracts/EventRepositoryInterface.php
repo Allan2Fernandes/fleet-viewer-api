@@ -2,9 +2,11 @@
 
 namespace App\Contracts;
 
+use App\Data\CreateMockEventsData;
+
 
 
 interface EventRepositoryInterface
 {
-    public function createMockEvents(): void;
+    public function createMockEvents(CreateMockEventsData $data): void;
 }
