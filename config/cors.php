@@ -8,7 +8,7 @@ return [
 
     'allowed_origins' => [
         'http://localhost:4200',
-        'http://peppermint-project-bucket.s3-website.ap-south-1.amazonaws.com/'
+        'http://peppermint-project-bucket.s3-website.ap-south-1.amazonaws.com'
     ],
 
     'allowed_origins_patterns' => [],
