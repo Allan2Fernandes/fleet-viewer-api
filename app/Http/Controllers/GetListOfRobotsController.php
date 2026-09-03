@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Actions\GetListOfRobotsAction;
+use App\Http\Requests\GetListOfRobotsRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class GetListOfRobotsController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(GetListOfRobotsRequest $request): JsonResponse
     {
         return new JsonResponse(GetListOfRobotsAction::run());
     }
