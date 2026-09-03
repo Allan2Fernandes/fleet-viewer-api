@@ -14,10 +14,9 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Specific known user (e.g., for local login/testing)
-        $data = ['name' => 'Allan Fernandes', 'email' => 'allan2fernandes@hotmail.com','password' => '12345678'];
+        $data = ['name' => 'Allan Fernandes', 'email' => 'allan2fernandes@hotmail.com','password' => env('SEEDER_USER1_PASSWORD')];
         User::create(array_merge($data, ['id' => (string) Str::uuid(), 'email_verified_at' => now()]));
-
-        
+        $data2 = ['name' => 'Peppermint user', 'email' => 'user2@peppermint.com','password' => env('SEEDER_USER2_PASSWORD')];
+        User::create(array_merge($data2, ['id' => (string) Str::uuid(), 'email_verified_at' => now()]));
     }
 }
