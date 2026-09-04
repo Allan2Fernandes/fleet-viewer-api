@@ -90,7 +90,7 @@ class EventRepository implements EventRepositoryInterface
             ->select(['id', 'time'])
             ->orderByDesc('time')
             ->first();
-        $startTime =  $event->time;
+        $startTime =  $event?->time ?? now()->timestamp;
 
         $interval = (int) env('MOCK_EVENT_INTERVAL', 400);
         $currentTime = $startTime;
