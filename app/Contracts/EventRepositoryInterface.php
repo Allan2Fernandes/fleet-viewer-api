@@ -12,4 +12,6 @@ interface EventRepositoryInterface
     public function createMockEvents(CreateMockEventsData $data): void;
 
     public function getRobotsActiveTrend(): Collection;
+
+    public function generateMoreMockEvents(): void;
 }

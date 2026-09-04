@@ -17,7 +17,7 @@ class CreateMockEventsData extends Data
             'fleet_size' => [
                 'required',
                 'integer',
-                'between:0,1000',
+                'between:0,500',
             ],
         ];
     }
