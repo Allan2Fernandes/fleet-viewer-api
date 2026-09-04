@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateMockEventsRequest;
 use DB;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CreateMockEventsController extends Controller
 {
@@ -17,7 +16,7 @@ class CreateMockEventsController extends Controller
      */
     public function __invoke(CreateMockEventsRequest $request): JsonResponse
     {
-        DB::beginTransaction();
+        DB::beginTransaction(); 
         $data = CreateMockEventsData::from($request->validated());
         CreateMockEventsAction::run($data);
         DB::commit();
